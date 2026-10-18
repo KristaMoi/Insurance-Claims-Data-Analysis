@@ -26,3 +26,17 @@ with sqlite3.connect(DB_PATH) as conn:
     result = pd.read_sql_query(query, conn)
 
 print(result)
+
+result.plot(
+    x="age_group",
+    y="claim_frequency",
+    kind="bar",
+    legend=False
+)
+
+plt.ylabel("Vahinkoja vakuutusvuotta kohti")
+plt.xlabel("Kuljettajan ikäryhmä")
+plt.title("Vahinkofrekvenssi ikäryhmittäin")
+plt.tight_layout()
+plt.savefig("./outputs/claims_by_age.png", dpi=150)
+plt.show()
