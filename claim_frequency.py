@@ -3,6 +3,7 @@ import sqlite3
 import pandas as pd
 DB_PATH = "./insurance.db"
 
+# keskimääräiset vahinkofrekvenssit
 query = """
 SELECT
     CASE
@@ -19,7 +20,7 @@ SELECT
 FROM policies
 WHERE Exposure > 0
 GROUP BY age_group
-ORDER BY claim_frequency DESC;
+ORDER BY age_group ASC;
 """
 
 with sqlite3.connect(DB_PATH) as conn:
@@ -27,6 +28,11 @@ with sqlite3.connect(DB_PATH) as conn:
 
 print(result)
 
+# rajataan frequency-aineistosta 10000 riviä
+# result = result.sample(n=10000, random_state=42)
+# print("Rivimäärä rajatun aineiston jälkeen:", len(result))
+
+# kuvaaja: vahinkofrekvenssi ikäryhmittäin
 result.plot(
     x="age_group",
     y="claim_frequency",
